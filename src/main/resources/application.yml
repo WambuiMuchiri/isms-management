@@ -17,7 +17,7 @@ spring:
   datasource:
     url: jdbc:mysql://localhost:3306/isms_db
     username: isms-user
-    password: 5trathm0rE!
+    password: pa******d
     driver-class-name: com.mysql.cj.jdbc.Driver
 
   main:
@@ -26,8 +26,8 @@ spring:
   mail:
     host: smtp.gmail.com
     port: 587
-    username: sankalekelvin91@gmail.com
-    password: "ynnl dwxr xexb llql"   
+    username: wambuimuchiri036@gmail.com
+    password: "zlil pqmk brfy lbcb"   
     properties:
       mail:
         smtp:
@@ -43,31 +43,3 @@ server:
   port: 8085
 
 mpesa:
-  daraja:
-#    consumer-key: al2iX447Kf5qQaf09WEjwYlTA30UL0A3
-#    consumer-secret: l6ibW7E4tk8PAVMW
-    consumer-key: L6cPZqTSE5maI95pDGeIse0EQkHZIr6D
-    consumer-secret: C0JKwMQfldPrkUdm
-    grant-type: client_credentials
-    oauth-endpoint: https://sandbox.safaricom.co.ke/oauth/v1/generate
-    register-url-endpoint: https://sandbox.safaricom.co.ke/mpesa/c2b/v1/registerurl
-    simulate-transaction-endpoint: https://sandbox.safaricom.co.ke/mpesa/c2b/v1/simulate
-    shortCode: 600997
-    confirmationURL: https://f4ad-197-248-25-222.ngrok-free.app/mobile-money/confirmation 
-    #confirmationURL: https://f4ad-197-248-25-222.ngrok-free.app/mobile-money/confirmation
-    validationURL: https://f4ad-197-248-25-222.ngrok-free.app/mobile-money/validation
-    #validationURL: https://f4ad-197-248-25-222.ngrok-free.app/mobile-money/validation
-    responseType: Completed
-    b2c-transaction-endpoint: https://sandbox.safaricom.co.ke/mpesa/b2c/v1/paymentrequest
-    b2c-result-url: https://f4ad-197-248-25-222.ngrok-free.app/mobile-money/transaction-result
-    b2c-queue-timeout-url: https://f4ad-197-248-25-222.ngrok-free.app/mobile-money/b2c-queue-timeout
-    b2c-initiator-name: testapi
-    b2c-initiator-password: Safaricom999!*!
-#    b2c-initiator-password: JG5IwzAo8NE+6xuWhvVwdE/+mFe9TAKE2HrRRlFRi5Gva9YMp4dtn2XLDJxNd8czmaI3xII6z/3EFpa4x0P9xXNHR0nNeSkzllq7x0cIqIVgtU8qbZItbNPjXXXPqIbryd3+aObFYoK7O5fumkGqJetsrGnT6BECpL3EDUdjAEj/wUQmnKFI3lrmkbTD4166ardpUU0f7uW/VMDNRw6XTSHI4s0+Ptj7E/nrvXUalp+Wcv/YMSDNBocouMyYY0Tiov4f8jP0N9BSpYsnu6jCqLlk1lpLjLw2dlq7IAbvCKJkIUOj5SXzpofOftV+nqNW9u1JMjWUGp94N/SocMT0Pg==
-    transactionResultUrl: https://sandbox.safaricom.co.ke/mpesa/transactionstatus/v1/query
-    checkAccountBalanceUrl: https://sandbox.safaricom.co.ke/mpesa/accountbalance/v1/query
-    stkPassKey: bfb279f9aa9bdbcf158e97dd71a467cd2e0c893059b10f78e6b72ada1ed2c919
-    stkPushShortCode: 174379
-    stkPushRequestUrl: https://sandbox.safaricom.co.ke/mpesa/stkpush/v1/processrequest
-    stkPushRequestCallbackUrl: https://f4ad-197-248-25-222.ngrok-free.app/mobile-money/stk-transaction-result
-    lnmQueryRequestUrl: https://sandbox.safaricom.co.ke/mpesa/stkpushquery/v1/query
