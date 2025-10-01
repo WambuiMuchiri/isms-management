@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en" 
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      layout:decorate="~{layouts/main_layout}">
+    <head>
+        <title>Home</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+    </head>
+    <body>
+        <div layout:fragment="breadcrumb">
+            <div class="col-sm-6">
+                <h1>Welcome</h1>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item active"><a href="#">Home</a></li>
+                </ol>
+            </div>
+        </div> 
+        <div layout:fragment="content" >
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Items List</h3>
+                    <a class="btn btn-success float-sm-right mb-2 btn-sm" th:href="@{/items/create}"><span class="fa fa-plus"></span> Add Item</a>
+                </div>
+                <div class="card-body">
+                    
+                    <div sec:authorize="isAuthenticated()">
+						Welcome <b><span sec:authentication="name"> Username </span></b>
+										&nbsp;
+								<i><span sec:authentication="principal.authorities"> Roles </span></i>
+								<form th:action="@{/logout}" method="POST">
+									<input type="submit" class="btn btn-warning btn-md" value="Logout" />
+								</form>
+					</div>
+                    
+                </div>
+            </div>
+        </div>
+       
+    </body>
+</html>

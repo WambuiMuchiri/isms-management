@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd"
+  name="Trucks_Performance" language="java"
+  pageWidth="595" pageHeight="842" columnWidth="555"
+  leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+
+  <style name="Title" fontName="SansSerif" fontSize="50" isBold="true"/>
+  <style name="SubTitle" forecolor="#736343" fontName="SansSerif" fontSize="14"/>
+  <style name="Column header" forecolor="#666666" fontName="SansSerif" fontSize="10"/>
+  <style name="Detail" fontName="SansSerif" fontSize="8"/>
+  <style name="Row">
+    <conditionalStyle>
+      <conditionExpression><![CDATA[$V{REPORT_COUNT} % 2 == 0]]></conditionExpression>
+      <style backcolor="#E0E0E0" mode="Opaque"/>
+    </conditionalStyle>
+  </style>
+
+  <field name="recordDate" class="java.sql.Date"/>
+  <field name="jobItem"    class="java.lang.Double"/>
+  <field name="payment"    class="java.lang.Double"/>
+  <field name="total"      class="java.lang.Double"/>
+
+  <variable name="balance" class="java.lang.Double" calculation="Sum">
+    <variableExpression><![CDATA[$F{total}]]></variableExpression>
+  </variable>
+
+  <group name="recordDate">
+    <groupExpression><![CDATA[$F{recordDate}]]></groupExpression>
+    <groupFooter><band/></groupFooter>
+  </group>
+
+  <pageHeader>
+    <band height="101">
+      <rectangle>
+        <reportElement x="0" y="72" width="555" height="27" backcolor="#009999" mode="Opaque"/>
+      </rectangle>
+
+      <staticText>
+        <reportElement x="8" y="76" width="115" height="15" style="Column header" forecolor="#FFFF00"/>
+        <textElement textAlignment="Center"/>
+        <text><![CDATA[Date]]></text>
+      </staticText>
+
+      <staticText>
+        <reportElement x="410" y="76" width="43" height="15" style="Column header" forecolor="#FFFF00"/>
+        <textElement textAlignment="Center"/>
+        <text><![CDATA[Total]]></text>
+      </staticText>
+
+      <staticText>
+        <reportElement x="470" y="76" width="80" height="15" style="Column header" forecolor="#FFFF00"/>
+        <textElement textAlignment="Center"/>
+        <text><![CDATA[BALANCE]]></text>
+      </staticText>
+
+      <staticText>
+        <reportElement x="297" y="76" width="46" height="15" style="Column header" forecolor="#FFFF00"/>
+        <textElement textAlignment="Center"/>
+        <text><![CDATA[Payment]]></text>
+      </staticText>
+
+      <staticText>
+        <reportElement x="174" y="76" width="52" height="15" style="Column header" forecolor="#FFFF00"/>
+        <textElement textAlignment="Center"/>
+        <text><![CDATA[Job Item]]></text>
+      </staticText>
+
+      <rectangle>
+        <reportElement x="0" y="0" width="555" height="73" backcolor="#CCCCCC" mode="Opaque"/>
+      </rectangle>
+
+      <textField pattern="EEE, d MMM yyyy HH:mm:ss Z">
+        <reportElement x="353" y="52" width="197" height="20" style="Column header" forecolor="#FFFFFF"/>
+        <textElement textAlignment="Right" verticalAlignment="Middle"/>
+        <textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+      </textField>
+
+      <staticText>
+        <reportElement x="0" y="0" width="550" height="29" style="Title"/>
+        <textElement textAlignment="Right" verticalAlignment="Middle"/>
+        <text><![CDATA[CRADLE CARWASH]]></text>
+      </staticText>
+
+      <staticText>
+        <reportElement x="0" y="29" width="550" height="17"/>
+        <textElement textAlignment="Right" verticalAlignment="Middle">
+          <font fontName="SansSerif" size="14"/>
+        </textElement>
+        <text><![CDATA[sankalekelvin91@gmail.com]]></text>
+      </staticText>
+
+      <staticText>
+        <reportElement x="0" y="46" width="550" height="30" style="SubTitle"/>
+        <textElement textAlignment="Center" verticalAlignment="Middle"/>
+        <text><![CDATA[CARWASH PERFORMANCE]]></text>
+      </staticText>
+    </band>
+  </pageHeader>
+
+  <!--detail>
+    <band height="23">
+      <line>
+        <reportElement x="1" y="22" width="555" height="1" forecolor="#E0E0E0"/>
+        <graphicElement>
+          <pen lineWidth="0.75"/>
+        </graphicElement>
+      </line>
+
+      <textField pattern="dd/MM/yyyy">
+        <reportElement x="8" y="6" width="114" height="15" style="Detail"/>
+        <textElement textAlignment="Center"/>
+        <textFieldExpression><![CDATA[$F{recordDate}]]></textFieldExpression>
+      </textField>
+
+      <textField pattern="#,##0.00;-#,##0.00">
+        <reportElement x="165" y="6" width="70" height="15" style="Detail"/>
+        <textElement textAlignment="Center"/>
+        <textFieldExpression><![CDATA[$F{jobItem}]]></textFieldExpression>
+      </textField>
+
+      <textField pattern="#,##0.00;-#,##0.00">
+        <reportElement x="283" y="6" width="70" height="15" style="Detail"/>
+        <textElement textAlignment="Center"/>
+        <textFieldExpression><![CDATA[$F{payment}]]></textFieldExpression>
+      </textField>
+
+      <textField pattern="#,##0.00;-#,##0.00">
+        <reportElement x="398" y="6" width="62" height="15" style="Detail"/>
+        <textElement textAlignment="Center"/>
+        <textFieldExpression><![CDATA[$F{total}]]></textFieldExpression>
+      </textField>
+
+      <textField pattern="#,##0.00;-#,##0.00" isBlankWhenNull="true">
+        <reportElement x="470" y="6" width="80" height="15" style="Detail"/>
+        <textElement textAlignment="Center">
+          <font isBold="true"/>
+        </textElement>
+        <textFieldExpression><![CDATA[$V{balance}]]></textFieldExpression>
+      </textField>
+    </band>
+  </detail-->
+  
+  <detail>
+  <band height="23">
+    <frame>
+      <reportElement x="0" y="0" width="555" height="23" style="Row"/>
+    </frame>
+
+    <line>
+      <reportElement x="0" y="22" width="555" height="1" forecolor="#009999"/>
+      <graphicElement>
+        <pen lineWidth="0.75"/>
+      </graphicElement>
+    </line>
+
+    <textField pattern="dd/MM/yyyy">
+      <reportElement x="8" y="6" width="114" height="15" style="Detail"/>
+      <textElement textAlignment="Center"/>
+      <textFieldExpression><![CDATA[$F{recordDate}]]></textFieldExpression>
+    </textField>
+
+    <textField pattern="#,##0.00;-#,##0.00">
+      <reportElement x="165" y="6" width="70" height="15" style="Detail"/>
+      <textElement textAlignment="Center"/>
+      <textFieldExpression><![CDATA[$F{jobItem}]]></textFieldExpression>
+    </textField>
+
+    <textField pattern="#,##0.00;-#,##0.00">
+      <reportElement x="283" y="6" width="70" height="15" style="Detail"/>
+      <textElement textAlignment="Center"/>
+      <textFieldExpression><![CDATA[$F{payment}]]></textFieldExpression>
+    </textField>
+
+    <textField pattern="#,##0.00;-#,##0.00">
+      <reportElement x="398" y="6" width="62" height="15" style="Detail"/>
+      <textElement textAlignment="Center"/>
+      <textFieldExpression><![CDATA[$F{total}]]></textFieldExpression>
+    </textField>
+
+    <textField pattern="#,##0.00;-#,##0.00" isBlankWhenNull="true">
+      <reportElement x="470" y="6" width="80" height="15" style="Detail"/>
+      <textElement textAlignment="Center">
+        <font isBold="true"/>
+      </textElement>
+      <textFieldExpression><![CDATA[$V{balance}]]></textFieldExpression>
+    </textField>
+  </band>
+</detail>
+  
+
+  <pageFooter>
+    <band height="38">
+      <rectangle>
+        <reportElement x="-21" y="10" width="597" height="24" backcolor="#000000" mode="Opaque"/>
+      </rectangle>
+
+      <textField>
+        <reportElement x="453" y="10" width="80" height="20" forecolor="#FFFFFF" style="Column header"/>
+        <textElement textAlignment="Right" verticalAlignment="Middle"/>
+        <textFieldExpression><![CDATA["Page " + $V{PAGE_NUMBER} + " of"]]></textFieldExpression>
+      </textField>
+
+      <textField>
+        <reportElement x="533" y="10" width="40" height="20" forecolor="#FFFFFF" style="Column header"/>
+        <textElement verticalAlignment="Middle"/>
+        <textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+      </textField>
+
+      <textField pattern="EEE, d MMM yyyy HH:mm:ss Z">
+        <reportElement x="10" y="10" width="197" height="20" forecolor="#FFFFFF" style="Column header"/>
+        <textElement verticalAlignment="Middle"/>
+        <textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+      </textField>
+    </band>
+  </pageFooter>
+
+  <summary>
+    <band height="55">
+      <textField pattern="#,##0.00;-#,##0.00">
+        <reportElement x="277" y="2" width="270" height="53" backcolor="#CCFFCC" mode="Opaque"/>
+        <textElement textAlignment="Center" verticalAlignment="Middle">
+          <font size="36" isBold="true" isUnderline="true"/>
+        </textElement>
+        <textFieldExpression><![CDATA[$V{balance}]]></textFieldExpression>
+      </textField>
+
+      <staticText>
+        <reportElement x="8" y="3" width="262" height="42" backcolor="#CCFFCC" mode="Opaque"/>
+        <textElement textAlignment="Center" verticalAlignment="Middle">
+          <font fontName="SansSerif" size="24"/>
+        </textElement>
+        <text><![CDATA[BALANCE :]]></text>
+      </staticText>
+    </band>
+  </summary>
+
+</jasperReport>

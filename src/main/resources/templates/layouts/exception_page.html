@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" 
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      layout:decorate="~{layouts/main_layout}">
+    <head>
+        <title>Security Check !!</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+    </head>
+    <body>
+        <div layout:fragment="breadcrumb">
+            <div class="col-sm-6">
+                <h1>NOT PERMITTED</h1>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="#">Home</a></li>
+                    <li class="breadcrumb-item active">Un-Authorised Access</li>
+                </ol>
+            </div>
+        </div> 
+        <div layout:fragment="content" >
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">403!!! Resource Not Found</h3>
+                    <a class="btn btn-success float-sm-right mb-2 btn-sm" th:href="@{/}"><span class="fa fa-user"></span> Home Page</a>
+                </div>
+                <div class="card-body">
+			        <h2 style="color:red;">SORRY USER HAS LIMITED PREVIGES TO PERFORM THIS OPERATION !!!</h2>
+			        <div><a th:href="@{/}">home page</a></div>
+			    </div>
+            </div>
+        </div>        
+    </body>
+</html>

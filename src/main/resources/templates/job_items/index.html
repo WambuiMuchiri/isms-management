@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      layout:decorate="~{layouts/main_layout}">
+<head>
+  <title>Job Items • Assignments</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+</head>
+<body>
+<div layout:fragment="breadcrumb">
+  <div class="col-sm-6">
+    <h1>Assignments & Job Items</h1>
+  </div>
+  <div class="col-sm-6">
+    <ol class="breadcrumb float-sm-right">
+      <li class="breadcrumb-item"><a href="#">Home</a></li>
+      <li class="breadcrumb-item active">Job Items</li>
+    </ol>
+  </div>
+</div>
+
+<div layout:fragment="content">
+  <!-- Alerts -->
+  <div th:if="${success}" class="alert alert-success alert-dismissible">
+    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+    <i class="icon fas fa-check"></i> <span th:text="${success}"></span>
+  </div>
+  <div th:if="${error}" class="alert alert-danger alert-dismissible">
+    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+    <i class="icon fas fa-ban"></i> <span th:text="${error}"></span>
+  </div>
+
+  <div class="card card-primary">
+    <div class="card-header">
+      <h3 class="card-title"><i class="fas fa-tasks"></i> All Assignments</h3>
+    </div>
+    <div class="card-body">
+      <table id="assignmentsJobItemsTable" class="table table-bordered table-striped">
+        <thead>
+        <tr>
+          <th>Assignment ID</th>
+          <th>Installation</th>
+          <th>Personnel</th>
+          <th>Equipment</th>
+          <th>Latest Status</th>
+          <th>Due Date</th>
+          <th>Updated</th>
+          <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="a : ${assignments}">
+          <td th:text="${a.id}">1</td>
+          <td th:text="${a.installation.installationName}">Installation A</td>
+          <td th:text="${a.personnel.personnelName}">John Doe</td>
+          <td th:text="${a.equipment.equipmentName}">Pump 1</td>
+
+          <!-- Latest JobItem -->
+          <td th:text="${latestJobItems.get(a.id) != null ? latestJobItems.get(a.id).status : 'N/A'}">PENDING</td>
+          <td th:text="${latestJobItems.get(a.id) != null ? latestJobItems.get(a.id).dueDate : ''}"></td>
+          <td th:text="${latestJobItems.get(a.id) != null ? #temporals.format(latestJobItems.get(a.id).updatedAt, 'yyyy-MM-dd HH:mm') : ''}"></td>
+
+          <td>
+            <div class="btn-group">
+              <!-- Modify opens assignment page -->
+              <a th:href="@{/job-items/modify/{id}(id=${a.id})}" class="btn btn-info btn-sm">
+                <i class="fas fa-edit"></i> Modify
+              </a>
+
+              <!-- Quick add JobItem for this assignment -->
+              <button class="btn btn-primary btn-sm"
+                      th:attr="data-assignment-id=${a.id}"
+                      data-toggle="modal" data-target="#addJobItemModal">
+                <i class="fas fa-plus"></i> Add Job Item
+              </button>
+            </div>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Modal: Add JobItem -->
+  <div class="modal fade" id="addJobItemModal" tabindex="-1" role="dialog" aria-labelledby="addJobItemLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <form th:action="@{/job-items}" method="post" th:object="${jobItemDTO}" class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="addJobItemLabel">Add Job Item</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span>&times;</span></button>
+        </div>
+        <div class="modal-body">
+          <input type="hidden" th:field="*{assignmentId}" id="modal-assignment-id">
+
+          <div class="form-group">
+            <label>Status</label>
+            <select class="form-control" th:field="*{status}" required>
+              <option th:each="s : ${statuses}" th:value="${s}" th:text="${s}"></option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label>Due Date</label>
+            <input type="date" class="form-control" th:field="*{dueDate}">
+          </div>
+
+          <div class="form-group">
+            <label>Remarks</label>
+            <textarea rows="3" class="form-control" th:field="*{remarks}" placeholder="Notes/Instructions"></textarea>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Save</button>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<div layout:fragment="page_specific_scripts">
+  <script>
+    // hook assignmentId into modal form
+    $('#addJobItemModal').on('show.bs.modal', function (event) {
+      const btn = $(event.relatedTarget);
+      const assignmentId = btn.data('assignment-id');
+      $('#modal-assignment-id').val(assignmentId);
+    });
+
+    // datatable
+    $(function(){
+      $('#assignmentsJobItemsTable').DataTable({
+        responsive: true, lengthChange: false, autoWidth: false,
+        buttons: ["copy", "csv", "excel", "pdf", "print", "colvis"]
+      }).buttons().container().appendTo('#assignmentsJobItemsTable_wrapper .col-md-6:eq(0)');
+    });
+  </script>
+</div>
+</body>
+</html>

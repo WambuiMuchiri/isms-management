@@ -1,0 +1,10 @@
+package com.isms.repository;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+
+import com.isms.model.Personnels;
+
+public interface PersonnelsRepository extends JpaRepository<Personnels, Integer> , JpaSpecificationExecutor<Personnels>{
+	
+}

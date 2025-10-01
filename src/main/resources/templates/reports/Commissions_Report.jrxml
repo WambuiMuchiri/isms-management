@@ -1,0 +1,335 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd"
+  name="Commissions Report" language="java"
+  pageWidth="595" pageHeight="842" columnWidth="535"
+  leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+
+  <style name="Title" fontName="SansSerif" fontSize="24" isBold="true"/>
+  <style name="SubTitle" forecolor="#736343" fontName="SansSerif" fontSize="18"/>
+  <style name="Column header" forecolor="#666666" fontName="SansSerif" fontSize="10"/>
+  <style name="Detail" fontName="SansSerif" fontSize="8"/>
+  <style name="Row">
+    <conditionalStyle>
+      <conditionExpression><![CDATA[$V{REPORT_COUNT} % 2 == 0]]></conditionExpression>
+      <style backcolor="#E0E0E0" mode="Opaque"/>
+    </conditionalStyle>
+  </style>
+
+  <field name="recordDate"         class="java.sql.Date"/>
+  <field name="jobItem"            class="java.lang.Double"/>
+  <field name="payment"            class="java.lang.Double"/>
+  <field name="cashIn"             class="java.lang.Double"/>
+  <field name="cashOut"            class="java.lang.Double"/>
+  <field name="dayCommission"      class="java.lang.Double"/>
+  <field name="receivedCommission" class="java.lang.Double"/>
+  <field name="paidCommission"     class="java.lang.Double"/>
+
+  <variable name="commissionsBalance" class="java.lang.Double">
+    <variableExpression><![CDATA[$F{paidCommission} + $F{dayCommission}]]></variableExpression>
+  </variable>
+  <variable name="totalCommissionsBalance" calculation="Sum" class="java.lang.Double">
+    <variableExpression><![CDATA[$V{commissionsBalance}]]></variableExpression>
+  </variable>
+  <variable name="payments" calculation="Sum" class="java.lang.Double">
+    <variableExpression><![CDATA[$F{payment}]]></variableExpression>
+  </variable>
+  <variable name="jobItems" calculation="Sum" class="java.lang.Double">
+    <variableExpression><![CDATA[$F{jobItem}]]></variableExpression>
+  </variable>
+  <variable name="cashIns" calculation="Sum" class="java.lang.Double">
+    <variableExpression><![CDATA[$F{cashIn}]]></variableExpression>
+  </variable>
+  <variable name="cashOuts" calculation="Sum" class="java.lang.Double">
+    <variableExpression><![CDATA[$F{cashOut}]]></variableExpression>
+  </variable>
+  <variable name="dayCommissions" calculation="Sum" class="java.lang.Double">
+    <variableExpression><![CDATA[$F{dayCommission}]]></variableExpression>
+  </variable>
+  <variable name="receivedCommissions" calculation="Sum" class="java.lang.Double">
+    <variableExpression><![CDATA[$F{receivedCommission}]]></variableExpression>
+  </variable>
+  <variable name="paidCommissions" calculation="Sum" class="java.lang.Double">
+    <variableExpression><![CDATA[$F{paidCommission}]]></variableExpression>
+  </variable>
+
+  <group name="recordDate">
+    <groupExpression><![CDATA[$F{recordDate}]]></groupExpression>
+    <groupFooter><band/></groupFooter>
+  </group>
+
+  <pageHeader>
+    <band height="101">
+      <rectangle>
+        <reportElement x="0" y="72" width="555" height="27" backcolor="#009999" mode="Opaque"/>
+      </rectangle>
+
+      <staticText>
+        <reportElement x="16" y="76" width="70" height="15" style="Column header" forecolor="#FFFF00"/>
+        <textElement textAlignment="Center"/>
+        <text><![CDATA[Date]]></text>
+      </staticText>
+      <staticText>
+        <reportElement x="95" y="76" width="40" height="15" style="Column header" forecolor="#FFFF00"/>
+        <textElement textAlignment="Center"/>
+        <text><![CDATA[JobItem]]></text>
+      </staticText>
+      <staticText>
+        <reportElement x="141" y="76" width="40" height="15" style="Column header" forecolor="#FFFF00"/>
+        <textElement textAlignment="Center"/>
+        <text><![CDATA[Payment]]></text>
+      </staticText>
+      <staticText>
+        <reportElement x="188" y="76" width="40" height="15" style="Column header" forecolor="#FFFF00"/>
+        <textElement textAlignment="Center"/>
+        <text><![CDATA[Retain]]></text>
+      </staticText>
+      <staticText>
+        <reportElement x="233" y="76" width="40" height="15" style="Column header" forecolor="#FFFF00"/>
+        <textElement textAlignment="Center"/>
+        <text><![CDATA[CashOut]]></text>
+      </staticText>
+      <staticText>
+        <reportElement x="277" y="76" width="50" height="15" style="Column header" forecolor="#FFFF00"/>
+        <textElement textAlignment="Center"/>
+        <text><![CDATA[Comm.]]></text>
+      </staticText>
+      <staticText>
+        <reportElement x="332" y="76" width="50" height="15" style="Column header" forecolor="#FFFF00"/>
+        <textElement textAlignment="Center"/>
+        <text><![CDATA[Rcvd Com.]]></text>
+      </staticText>
+      <staticText>
+        <reportElement x="388" y="76" width="50" height="15" style="Column header" forecolor="#FFFF00"/>
+        <textElement textAlignment="Center"/>
+        <text><![CDATA[Paid Com.]]></text>
+      </staticText>
+      <staticText>
+        <reportElement x="441" y="76" width="50" height="15" style="Column header" forecolor="#FFFF00"/>
+        <textElement textAlignment="Center"/>
+        <text><![CDATA[Comm Bal.]]></text>
+      </staticText>
+      <staticText>
+        <reportElement x="493" y="76" width="60" height="15" style="Column header" forecolor="#FFFF00"/>
+        <textElement textAlignment="Center"/>
+        <text><![CDATA[Total Bal.]]></text>
+      </staticText>
+
+      <rectangle>
+        <reportElement x="0" y="0" width="555" height="73" backcolor="#CCCCCC" mode="Opaque"/>
+      </rectangle>
+
+      <textField pattern="EEE, d MMM yyyy HH:mm:ss Z">
+        <reportElement x="353" y="52" width="197" height="20" style="Column header" forecolor="#FFFFFF"/>
+        <textElement textAlignment="Right" verticalAlignment="Middle"/>
+        <textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+      </textField>
+
+      <staticText>
+        <reportElement x="23" y="6" width="509" height="32" style="Title"/>
+        <textElement textAlignment="Center" verticalAlignment="Middle"/>
+        <text><![CDATA[CRADLE CARWASH]]></text>
+      </staticText>
+
+      <staticText>
+        <reportElement x="154" y="34" width="211" height="17"/>
+        <textElement textAlignment="Center" verticalAlignment="Middle">
+          <font fontName="SansSerif" size="14"/>
+        </textElement>
+        <text><![CDATA[sankalekelvin91@gmail.com]]></text>
+      </staticText>
+
+      <staticText>
+        <reportElement x="130" y="50" width="268" height="20"/>
+        <textElement textAlignment="Center" verticalAlignment="Middle">
+          <font fontName="SansSerif" size="16" isItalic="true" isBold="true"/>
+        </textElement>
+        <text><![CDATA[Commissions Report]]></text>
+      </staticText>
+    </band>
+  </pageHeader>
+
+  <detail>
+    <band height="28" splitType="Stretch">
+      <rectangle>
+        <reportElement x="1" y="4" width="555" height="19" style="Row"/>
+        <graphicElement><pen lineWidth="0.0"/></graphicElement>
+      </rectangle>
+
+      <line>
+        <reportElement x="1" y="0" width="556" height="1" forecolor="#CCFFCC"/>
+      </line>
+
+      <textField pattern="d MMM yyyy">
+        <reportElement x="7" y="6" width="78" height="15" style="Detail"/>
+        <textElement textAlignment="Center"/>
+        <textFieldExpression><![CDATA[$F{recordDate}]]></textFieldExpression>
+      </textField>
+
+      <textField pattern="#,##0;-#,##0">
+        <reportElement x="95" y="6" width="40" height="15" style="Detail"/>
+        <textElement textAlignment="Center"><font isBold="true"/></textElement>
+        <textFieldExpression><![CDATA[$F{jobItem}]]></textFieldExpression>
+      </textField>
+
+      <textField pattern="#,##0;-#,##0">
+        <reportElement x="141" y="6" width="40" height="15" style="Detail"/>
+        <textElement textAlignment="Center"><font isBold="true"/></textElement>
+        <textFieldExpression><![CDATA[$F{payment}]]></textFieldExpression>
+      </textField>
+
+      <textField pattern="#,##0;-#,##0">
+        <reportElement x="188" y="6" width="40" height="15" style="Detail"/>
+        <textElement textAlignment="Center"><font isBold="true"/></textElement>
+        <textFieldExpression><![CDATA[$F{cashIn}]]></textFieldExpression>
+      </textField>
+
+      <textField pattern="#,##0;-#,##0">
+        <reportElement x="233" y="6" width="40" height="15" style="Detail"/>
+        <textElement textAlignment="Center"><font isBold="true"/></textElement>
+        <textFieldExpression><![CDATA[$F{cashOut}]]></textFieldExpression>
+      </textField>
+
+      <textField pattern="#,##0;-#,##0">
+        <reportElement x="277" y="6" width="50" height="15" style="Detail"/>
+        <textElement textAlignment="Center"><font isBold="true"/></textElement>
+        <textFieldExpression><![CDATA[$F{dayCommission}]]></textFieldExpression>
+      </textField>
+
+      <textField pattern="#,##0;-#,##0">
+        <reportElement x="332" y="6" width="50" height="15" style="Detail"/>
+        <textElement textAlignment="Center"><font isBold="true"/></textElement>
+        <textFieldExpression><![CDATA[$F{receivedCommission}]]></textFieldExpression>
+      </textField>
+
+      <textField pattern="#,##0;-#,##0">
+        <reportElement x="388" y="6" width="50" height="15" style="Detail"/>
+        <textElement textAlignment="Center"><font isBold="true"/></textElement>
+        <textFieldExpression><![CDATA[$F{paidCommission}]]></textFieldExpression>
+      </textField>
+
+      <textField>
+        <reportElement x="441" y="6" width="50" height="15" style="Detail"/>
+        <textElement textAlignment="Center"/>
+        <textFieldExpression><![CDATA[$V{commissionsBalance}]]></textFieldExpression>
+      </textField>
+
+      <textField pattern="#,##0;-#,##0">
+        <reportElement x="493" y="6" width="60" height="15" style="Detail"/>
+        <textElement textAlignment="Center"><font isBold="true"/></textElement>
+        <textFieldExpression><![CDATA[$V{totalCommissionsBalance}]]></textFieldExpression>
+      </textField>
+
+      <line>
+        <reportElement x="1" y="26" width="556" height="1"/>
+        <graphicElement><pen lineStyle="Double"/></graphicElement>
+      </line>
+    </band>
+  </detail>
+
+  <pageFooter>
+    <band height="38">
+      <rectangle>
+        <reportElement x="-21" y="10" width="597" height="24" backcolor="#000000" mode="Opaque"/>
+      </rectangle>
+      <textField>
+        <reportElement x="453" y="10" width="80" height="20" style="Column header" forecolor="#FFFFFF"/>
+        <textElement textAlignment="Right" verticalAlignment="Middle"/>
+        <textFieldExpression><![CDATA["Page " + $V{PAGE_NUMBER} + " of"]]></textFieldExpression>
+      </textField>
+      <textField>
+        <reportElement x="533" y="10" width="40" height="20" style="Column header" forecolor="#FFFFFF"/>
+        <textElement verticalAlignment="Middle"/>
+        <textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+      </textField>
+      <textField pattern="EEE, d MMM yyyy HH:mm:ss Z">
+        <reportElement x="22" y="11" width="253" height="20" style="Column header" forecolor="#FFFFFF"/>
+        <textElement verticalAlignment="Middle"/>
+        <textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+      </textField>
+    </band>
+  </pageFooter>
+
+  <summary>
+    <band height="95">
+      <staticText>
+        <reportElement x="8" y="42" width="262" height="42" style="Column header" backcolor="#CCFFCC" mode="Opaque" forecolor="#FF3333"/>
+        <textElement textAlignment="Center" verticalAlignment="Middle">
+          <font fontName="SansSerif" size="24"/>
+        </textElement>
+        <text><![CDATA[Commissions Balance:]]></text>
+      </staticText>
+
+      <textField pattern="#,##0.00;(-#,##0.00)">
+        <reportElement x="277" y="41" width="270" height="53" style="Detail" backcolor="#CCFFCC" mode="Opaque"/>
+        <textElement textAlignment="Center" verticalAlignment="Middle">
+          <font size="36" isBold="true" isUnderline="true"/>
+        </textElement>
+        <textFieldExpression><![CDATA[$V{totalCommissionsBalance}]]></textFieldExpression>
+      </textField>
+	  <textField pattern="#,##0;-#,##0">
+		<reportElement x="95" y="7" width="40" height="15" style="Detail"/>
+		<textElement textAlignment="Center" verticalAlignment="Middle">
+		  <font isBold="true"/>
+		</textElement>
+		<textFieldExpression><![CDATA[$V{jobItems}]]></textFieldExpression>
+	  </textField>
+      <textField pattern="#,##0;-#,##0">
+        <reportElement x="141" y="7" width="40" height="15" style="Detail"/>
+        <textElement textAlignment="Center" verticalAlignment="Middle"><font isBold="true"/></textElement>
+        <textFieldExpression><![CDATA[$V{payments}]]></textFieldExpression>
+      </textField>
+      <textField pattern="#,##0;-#,##0">
+        <reportElement x="188" y="7" width="40" height="15" style="Detail"/>
+        <textElement textAlignment="Center" verticalAlignment="Middle"><font isBold="true"/></textElement>
+        <textFieldExpression><![CDATA[$V{cashIns}]]></textFieldExpression>
+      </textField>
+      <textField pattern="#,##0;-#,##0">
+        <reportElement x="233" y="7" width="40" height="15" style="Detail"/>
+        <textElement textAlignment="Center" verticalAlignment="Middle"><font isBold="true"/></textElement>
+        <textFieldExpression><![CDATA[$V{cashOuts}]]></textFieldExpression>
+      </textField>
+      <textField pattern="#,##0;-#,##0">
+        <reportElement x="277" y="7" width="50" height="15" style="Detail"/>
+        <textElement textAlignment="Center" verticalAlignment="Middle"><font isBold="true"/></textElement>
+        <textFieldExpression><![CDATA[$V{dayCommissions}]]></textFieldExpression>
+      </textField>
+      <textField pattern="#,##0;-#,##0">
+        <reportElement x="332" y="7" width="50" height="15" style="Detail"/>
+        <textElement textAlignment="Center" verticalAlignment="Middle"><font isBold="true"/></textElement>
+        <textFieldExpression><![CDATA[$V{receivedCommissions}]]></textFieldExpression>
+      </textField>
+      <textField pattern="#,##0;-#,##0">
+        <reportElement x="388" y="7" width="50" height="15" style="Detail"/>
+        <textElement textAlignment="Center" verticalAlignment="Middle"><font isBold="true"/></textElement>
+        <textFieldExpression><![CDATA[$V{paidCommissions}]]></textFieldExpression>
+      </textField>
+      <textField pattern="#,##0.0#">
+        <reportElement x="493" y="7" width="60" height="17" style="Row"/>
+        <textElement textAlignment="Center" verticalAlignment="Top"><font isBold="true" size="13"/></textElement>
+        <textFieldExpression><![CDATA[$V{totalCommissionsBalance}]]></textFieldExpression>
+      </textField>
+
+      <line><reportElement x="95"  y="4" width="40" height="1"/></line>
+      <line><reportElement x="141" y="4" width="40" height="1"/></line>
+      <line><reportElement x="188" y="4" width="40" height="1"/></line>
+      <line><reportElement x="233" y="4" width="40" height="1"/></line>
+      <line><reportElement x="277" y="4" width="50" height="1"/></line>
+      <line><reportElement x="332" y="4" width="50" height="1"/></line>
+      <line><reportElement x="388" y="4" width="50" height="1"/></line>
+      <line><reportElement x="493" y="4" width="60" height="1"/></line>
+
+      <line><reportElement x="95" y="24" width="40" height="1"/><graphicElement><pen lineStyle="Double"/></graphicElement></line>
+      <line><reportElement x="141" y="24" width="40" height="1"/><graphicElement><pen lineStyle="Double"/></graphicElement></line>
+      <line><reportElement x="188" y="24" width="40" height="1"/><graphicElement><pen lineStyle="Double"/></graphicElement></line>
+      <line><reportElement x="233" y="24" width="40" height="1"/><graphicElement><pen lineStyle="Double"/></graphicElement></line>
+      <line><reportElement x="277" y="24" width="50" height="1"/><graphicElement><pen lineStyle="Double"/></graphicElement></line>
+      <line><reportElement x="332" y="24" width="50" height="1"/><graphicElement><pen lineStyle="Double"/></graphicElement></line>
+      <line><reportElement x="388" y="24" width="50" height="1"/><graphicElement><pen lineStyle="Double"/></graphicElement></line>
+      <line><reportElement x="493" y="24" width="60" height="1"/><graphicElement><pen lineStyle="Double"/></graphicElement></line>
+
+      <line><reportElement x="493" y="26" width="60" height="1"/><graphicElement><pen lineStyle="Double"/></graphicElement></line>
+    </band>
+  </summary>
+</jasperReport>

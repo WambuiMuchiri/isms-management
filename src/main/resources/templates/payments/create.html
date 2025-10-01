@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en" 
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      layout:decorate="~{layouts/main_layout}">
+    <head>
+        <title>New Payment</title>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    </head>
+    <body>
+        <div layout:fragment="breadcrumb">
+            <div class="col-sm-6">
+                <h1>Payments</h1>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="#" th:href="@{/}">Home</a></li>
+                    <li class="breadcrumb-item"><a th:href="@{/payments/index}" >Payments</a></li>
+                    <li class="breadcrumb-item active">New Payment</li>
+                </ol>
+            </div>
+        </div>
+        <div  layout:fragment="content">
+            <div class="card card-info">
+                <div class="card-header">
+                    <h3 class="card-title">
+                        <i class="fas fa-plus"></i>
+                        New Payment
+                    </h3>
+                </div>
+                
+                              
+                <form th:action="@{/payments/create}" th:object="${paymentsdto}" method="POST" enctype="multipart/form-data">
+                    <div class="card-body">  
+                        <div class="row"> 
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="balanceBf_Id">Balance B/F</label>
+                                    <input class="input form-control text-center" type="text" id="balanceBf_Id" th:field="*{balanceBF}" placeholder="client balance b/f" />                                    
+                                </div>
+                            </div> 
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="balanceCf_Id">Balance C/F</label>
+                                    <input class="input form-control text-center" type="text" id="balanceCf_Id" th:field="*{balanceCF}" placeholder="client balance c/f" />
+                                    <div class="alert alert-danger" th:if="${#fields.hasErrors('balanceCF')}" th:errors="*{balanceCF}"></div>                                    
+                                </div>
+                            </div>
+                            
+               
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="paymentDate">Payment Date</label>
+                                    <input class="form-control" type="date" th:field="*{paymentDate}" id="paymentDate" placeholder="choose payment date" />
+                                    <div class="alert alert-danger" th:if="${#fields.hasErrors('paymentDate')}" th:errors="*{paymentDate}"></div>
+                                </div>
+                            </div> 
+                            
+		                     <div class="col-md-3">
+	                            <div class="form-group">
+		                            <label class="mx-0" style="font-weight:bold;">Client</label>
+								<select id="client_Id" th:field="*{clients}" class="form-control col-xs-12 mb-3"  required>
+									<option th:value="'0'" >Select Client</option>
+									<option th:each="client : ${listClients}" th:value="${client.id}" th:text="${client.clientName}" th:selected="${client.id} == *{clients}"></option>	 
+								</select>												
+		                            <div class="alert alert-danger" th:if="${#fields.hasErrors('clients')}" th:errors="*{clients}"></div>
+		                        </div>
+		                    </div>
+		                 
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="paidBy">Paid By</label>
+                                    <input class="form-control" type="text" th:field="*{paidBy}" id="paidBy" placeholder="enter narration" />
+                                    <div class="alert alert-danger" th:if="${#fields.hasErrors('paidBy')}" th:errors="*{paidBy}"></div>
+                                </div>
+                            </div>
+                         
+                         	<div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="amountPaid">Amount Paid</label>
+                                    <input class="input form-control text-center" type="text" th:field="*{amountPaid}" id="amountPaid" placeholder="0" />
+                                    <div class="alert alert-danger" th:if="${#fields.hasErrors('amountPaid')}" th:errors="*{amountPaid}"></div>
+                                </div>
+                            </div>
+                                                                                    
+                            <div class="col-md-6">                            
+                                <div class="form-group">
+                                    <label for="paymentProof">Proof of Payment</label>
+                                    <input class="form-control" type="file" th:field="*{paymentProof}" id="paymentProof" placeholder="upload a proof of payment" required accept="image/png, image/jpeg" />
+                                    <div class="alert alert-danger" th:if="${#fields.hasErrors('paymentProof')}" th:errors="*{paymentProof}"></div>
+                                </div>
+                            </div>
+                                                        
+                            <div class="col-md-6">                            
+                                <div class="form-group">
+                                    <p class="card" style="height:200px; overflow:scroll;">
+										<img class="text-center my-auto" id="thumbnail" th:src="@{*{getPaymentProofPath}}" style="width:100%;" alt="proof_of_payment" />																	      
+									</p>
+                                </div>
+                            </div>
+                            
+                        </div>                    
+                    </div>
+                    <div class="card-footer">
+                        <button type="submit" class="btn btn-success">Save</button>
+                        <button type="reset" class="btn btn-warning  mx-5" id="btnReset" style="align:center;">cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        
+        <div layout:fragment="page_specific_scripts">
+            
+            <script th:inline="javascript">
+                $(document).ready(()=>{
+			      $('#paymentProof').change(function(){
+			        const file = this.files[0];
+			        console.log(file);
+			        if (file){
+			          let reader = new FileReader();
+			          reader.onload = function(event){
+			            console.log(event.target.result);
+			            $('#thumbnail').attr('src', event.target.result);
+			          }
+			          reader.readAsDataURL(file);
+			        }
+			      });
+			    });
+            </script>
+                								
+			<script type="text/javascript" th:replace="../static/payment_Info.js" th:src="@{/payment_Info.js}"></script>
+							        	
+        </div>
+        
+    </body>
+</html>

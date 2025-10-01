@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	layout:decorate="~{layouts/main_layout}">
+<head>
+<title>Update CashIn</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+</head>
+<body>
+	<div layout:fragment="breadcrumb">
+		<div class="col-sm-6">
+			<h1>CashIn</h1>
+		</div>
+		<div class="col-sm-6">
+			<ol class="breadcrumb float-sm-right">
+				<li class="breadcrumb-item"><a href="#" th:href="@{/}">Home</a></li>
+				<li class="breadcrumb-item"><a th:href="@{/cashIn/index}">CashIn</a></li>
+				<li class="breadcrumb-item active">Update CashIn</li>
+			</ol>
+		</div>
+	</div>
+	<div layout:fragment="content">
+		<div class="card card-info">
+			<div class="card-header">
+				<h3 class="card-title">
+					<i class="fas fa-edit"></i> Update CashIn
+				</h3>
+			</div>
+			<form class="js-cash" th:action="@{/cashIn/update/{id}(id=${cashIndto.id})}"
+				th:object="${cashIndto}" method="POST" form="cashInform">
+				<input type="hidden" th:field="*{id}" />
+				<div class="card-body">
+					<div class="row">
+						<div class="col-md-3">
+							<div class="form-group">
+								<label for="recordDate">Date</label> <input
+									class="form-control text-center" type="date"
+									th:field="*{recordDate}" id="recordDate"
+									placeholder="choose billing date" />
+								<div class="alert alert-danger"
+									th:if="${#fields.hasErrors('recordDate')}"
+									th:errors="*{recordDate}"></div>
+							</div>
+						</div>
+						<div class="col-md-3">
+							<div class="form-group">
+								<label class="mx-0" style="font-weight: bold;">Personnel</label> <select
+									id="personnel_Id" th:field="*{personnels}"
+									class="form-control col-xs-12 mb-3">
+									<option th:value="''">Select Personnel</option>
+									<option th:each="personnel : ${listPersonnels}" th:value="${personnel.id}"
+										th:text="${personnel.personnelName}"
+										th:selected="${personnel.id} == *{personnels?.id}"></option>
+								</select>
+								<div class="alert alert-danger"
+									th:if="${#fields.hasErrors('personnels')}" th:errors="*{personnels}"></div>
+							</div>
+						</div>
+						<div class="col-md-3">
+							<div class="form-group">
+								<label class="mx-0" style="font-weight: bold;">Clients</label> <select
+									id="client_Id" th:field="*{clients}"
+									class="form-control col-xs-12 mb-3">
+									<option th:value="''">Select Client</option>
+									<option th:each="client : ${listClients}"
+										th:value="${client.id}" th:text="${client.clientName}"
+										th:selected="${client.id} == *{clients?.id}"></option>
+								</select>
+								<div class="alert alert-danger"
+									th:if="${#fields.hasErrors('clients')}" th:errors="*{clients}"></div>
+							</div>
+						</div>
+						<div class="col-md-3">
+							<div class="form-group">
+								<label for="amount">Cash In Amount</label> <input
+									class="form-control text-center" type="text"
+									th:field="*{amount}" id="amount" placeholder="0" />
+								<div class="alert alert-danger"
+									th:if="${#fields.hasErrors('amount')}" th:errors="*{amount}"></div>
+							</div>
+						</div>
+
+						<div class="col-md-12">
+							<div class="form-group">
+								<label for="remarks">Remarks</label>
+								<textarea rows="3" cols="120" class="form-control" type="text"
+									th:field="*{remarks}" id="remarks"
+									placeholder="Optional Remarks"></textarea>
+								<div class="alert alert-danger"
+									th:if="${#fields.hasErrors('remarks')}" th:errors="*{remarks}"></div>
+							</div>
+						</div>
+
+					</div>
+				</div>
+				<div class="card-footer">
+					<button type="submit" class="btn btn-primary">Save</button>
+				</div>
+			</form>
+		</div>
+	</div>
+	<div layout:fragment="page_specific_scripts">
+
+		<script type="text/javascript" th:replace="../static/cash_flow.js"
+			th:src="@{/cash_flow.js}"></script>
+
+
+	</div>
+</body>
+</html>

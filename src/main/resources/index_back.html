@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      layout:decorate="~{layouts/main_layout}">
+<head>
+    <title>Manage Assignments</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+</head>
+<body>
+<div layout:fragment="breadcrumb">
+    <div class="col-sm-6">
+        <h1>Assignments</h1>
+    </div>
+    <div class="col-sm-6">
+        <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item"><a href="#">Home</a></li>
+            <li class="breadcrumb-item active">Assignments</li>
+        </ol>
+    </div>
+</div>
+<div layout:fragment="content">
+    <!-- Success/Error Messages -->
+    <div th:if="${success}" class="alert alert-success alert-dismissible">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+        <h5><i class="icon fas fa-check"></i> Success!</h5>
+        <span th:text="${success}"></span>
+    </div>
+    <div th:if="${error}" class="alert alert-danger alert-dismissible">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+        <h5><i class="icon fas fa-ban"></i> Error!</h5>
+        <span th:text="${error}"></span>
+    </div>
+
+    <!-- Create New Assignment Card -->
+    <div class="card card-info">
+        <div class="card-header">
+            <h3 class="card-title">
+                <i class="fas fa-plus"></i>
+                New Assignment
+            </h3>
+        </div>
+        <form th:action="@{/assignments/create}" method="POST" th:object="${assignmentDTO}">
+            <div class="card-body">
+                <div class="row">
+                    <div class="form-group col-md-4">
+                        <label class="mx-0" style="font-weight:bold;">Installation</label>
+                        <select id="installationId" name="installationId" class="form-control col-xs-12 mb-3" required>
+                            <option value="">Select Installation</option>
+                            <option th:each="installation : ${installations}" th:value="${installation.id}" th:text="${installation.InstallationName}"></option>
+                        </select>
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label class="mx-0" style="font-weight:bold;">Personnel</label>
+                        <select id="personnelId" name="personnelId" class="form-control col-xs-12 mb-3" required>
+                            <option value="">Select Personnel</option>
+                            <option th:each="personnel : ${personnels}" th:value="${personnel.id}" th:text="${personnel.personnelName}"></option>
+                        </select>
+                    </div>
+	                <div class="form-group col-md-4">
+					    <label for="assignmentDate">Assignment Date</label>
+					    <input type="date" class="form-control" id="assignmentDate" name="assignmentDate" th:field="*{assignmentDate}" required>
+					    <span class="text-danger" th:if="${#fields.hasErrors('assignmentDate')}" th:errors="*{assignmentDate}"></span>
+					</div>
+                    <div class="form-group col-md-12">
+                        <label for="remarks">Remarks</label>
+                        <textarea class="form-control" name="remarks" id="remarks" th:field="*{remarks}" rows="2" placeholder="Enter remarks (optional)"></textarea>
+                        <span class="text-danger" th:if="${#fields.hasErrors('remarks')}" th:errors="*{remarks}"></span>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="notifyPersonnel" name="notifyPersonnel" th:field="*{notifyPersonnel}">
+                            <label class="form-check-label" for="notifyPersonnel">
+                                Notify Personnel by Email
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer">
+                <button type="submit" class="btn btn-primary">Assign</button>
+            </div>
+        </form>
+    </div>
+
+    <!-- Assignments List Card with Audit Info -->
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title">Current Assignments</h3>
+        </div>
+        <div class="card-body">
+            <table id="assignmentsTable" class="table table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Installation</th>
+                        <th>Personnel</th>
+                        <th>Assignment Date</th>
+                        <th>Audit ID</th>
+                        <th>Created By</th>
+                        <th>Remarks</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="assignment : ${assignments}">
+					    <td th:text="${assignment.id}"></td>
+					    <td>
+					        <a th:href="@{/installations/view/{id}(id=${assignment.installation.id})}" th:text="${assignment.installation.installationName}"></a>
+					    </td>
+					    <td>
+					        <a th:href="@{/personnels/view/{id}(id=${assignment.personnel.id})}" th:text="${assignment.personnel.personnelName}"></a>
+					    </td>
+					    <td th:text="${#dates.format(assignment.assignmentDate, 'dd-MM-yyyy')}"></td>
+					    <td>
+					        <a th:href="@{/audit/view/{id}(id=${assignment.auditIdentifierId.identifierId})}" th:text="${assignment.auditIdentifierId.identifierId}"></a>
+					    </td>
+					    <td th:text="${creatorHelper.apply(assignment)}"></td>
+					    <td th:text="${assignment.remarks}"></td>
+					    <td>
+					        <div class="btn-group">
+					            <a th:href="@{/assignments/view/{id}(id=${assignment.id})}" class="btn btn-info btn-sm">
+					                <i class="fas fa-eye"></i>
+					            </a>
+					            <form th:action="@{/assignments/delete}" method="POST" style="display:inline;">
+					                <!-- Form content seems to be cut off -->
+					            </form>
+					        </div>
+					    </td>
+					</tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>

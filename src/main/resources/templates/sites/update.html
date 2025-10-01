@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en" 
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      layout:decorate="~{layouts/main_layout}">
+    <head>
+        <title>Update Site</title>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    </head>
+    <body>
+        <div layout:fragment="breadcrumb">
+            <div class="col-sm-6">
+                <h1>Sites</h1>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="#">Home</a></li>
+                    <li class="breadcrumb-item"><a th:href="@{/sites/index}" >Sites</a></li>
+                    <li class="breadcrumb-item active">Update Site</li>
+                </ol>
+            </div>
+        </div>
+        <div layout:fragment="content">
+            <div class="card card-info">
+                <div class="card-header">
+                    <h3 class="card-title">
+                        <i class="fas fa-edit"></i>
+                        Update Site
+                    </h3>
+                </div>
+                <form th:action="@{/sites/update/{id}(id=${sitesdto.id})}" th:object="${sitesdto}" method="POST" form="siteform">
+                    <input type="hidden" th:field="*{id}" />
+                    <div class="card-body">  
+                        <div class="row">
+	                       	<div class="form-group col-md-6">
+	                            <label for="siteName">Site Name</label>
+	                            <input class="form-control" type="text" th:field="*{siteName}" id="siteName" placeholder="Enter Site Name" />
+	                            <div class="alert alert-danger" th:if="${#fields.hasErrors('siteName')}" th:errors="*{siteName}"></div>
+	                        </div>
+	                        <div class="col-md-6">
+	                           <div class="form-group">
+	                            <label class="mx-0" style="font-weight:bold;">Project</label>
+								<select id="project_Id" name="projectId" th:field="*{projects}" class="form-control col-xs-12 mb-3"  required>
+									<option th:value="''" >Select Project</option>
+									<option th:each="project : ${listProjects}" th:value="${project.id}" th:text="${project.projectName}" th:selected="${project.id} == *{projects.id}"></option>	 
+								</select>												
+		                            <div class="alert alert-danger" th:if="${#fields.hasErrors('projects')}" th:errors="*{projects}"></div>
+		                        </div>
+	                    	</div>	   
+	                        <div class="form-group">
+	                            <label for="description">Description</label>
+	                            <textarea rows="3" cols="120" class="form-control" type="text" th:field="*{description}" id="description" placeholder="Optional Site description"></textarea>
+	                            <div class="alert alert-danger" th:if="${#fields.hasErrors('description')}" th:errors="*{description}"></div>
+	                        </div>
+	                        <div class="form-group">
+	                            <label for="remarks">Remarks</label>
+	                            <textarea rows="3" cols="120" class="form-control" type="text" th:field="*{remarks}" id="remarks" placeholder="Optional Site Remarks"></textarea>
+	                            <div class="alert alert-danger" th:if="${#fields.hasErrors('remarks')}" th:errors="*{remarks}"></div>
+	                        </div>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <button type="submit" class="btn btn-primary">Save</button>
+                    </div>
+                </form> 
+            </div>
+        </div>
+    </body>
+</html>

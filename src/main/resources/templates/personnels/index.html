@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en" 
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      layout:decorate="~{layouts/main_layout}">
+    <head>
+        <title>Personnels List</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+    </head>
+    <body>
+        <div layout:fragment="breadcrumb">
+            <div class="col-sm-6">
+                <h1>Personnels</h1>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="#">Home</a></li>
+                    <li class="breadcrumb-item active">Personnels</li>
+                </ol>
+            </div>
+        </div>
+        <div layout:fragment="content" >
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Personnels List</h3>
+                    <a class="btn btn-success float-sm-right mb-2 btn-sm" th:href="@{/personnels/create}"><span class="fa fa-plus"></span> Add Personnel</a>
+                </div>
+                <div class="card-body">
+                    <table id="personnels_table" class="table table-striped table-bordered" style="width:100%">
+                        <thead>
+                            <tr>
+                                <th>Id</th>
+                                <th>Personnel's Name</th>
+                                <th>Status</th>
+                                <th>Gender</th>
+                                <th>Tel No.</th>
+                                <th>Personnel's Picture</th>
+                                <th>Document</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div layout:fragment="page_specific_scripts">
+            <script th:inline="javascript">
+                var url = '/personnels/index/data-for-datatable';
+                $(document).ready(function () {
+                    $('#personnels_table').DataTable({
+                        "ajax": url,
+                        "processing": true,
+                        "serverSide": true,
+                        "columns": [
+                            {"data": "id"},
+                            {"data": "personnelName"},                            
+                            {"data": "status"},
+                            {"data": "gender"},
+                            {"data": "telNo"},
+                            { "data": "personnelPicture",
+                                "render": function (data, type, row, meta){
+						                if(type === "display"){
+						                   return '<img src="' + data + '"  alt="'+data+'" height="50" width="50">';
+						                } else {
+						                   return data;  
+						                }
+						             },
+                                "width": "20%","className":"text-center",
+                            },
+                            { "data": "scannedDocument",
+                                "render": function (data, type, row, meta){
+						                if(type === "display"){
+						                   return '<img src="' + data + '"  alt="'+data+'" height="50" width="50">';
+						                } else {
+						                   return data;  
+						                }
+						             },
+                                "width": "20%","className":"text-center",
+                            },                                                                      
+                            {
+                                "render": function (data, type, row, meta) {
+                                    return '<a class="btn btn-info btn-xs" href="/personnels/update/' + row.id + '">Update</a> ' +
+                                            '<form class="datatable_inline_delete" action="/personnels/delete/' + row.id + '" method="POST">' +
+                                            "<button class=\"btn btn-danger btn-xs right\" type=\"submit\" onClick=\"return confirm('Are you sure you want to delete this personnels?')\">Delete</button></form>";
+                                },
+                                "width": "20%","className":"text-center",
+                            },
+                            
+                        ],
+                        "columnDefs": [
+                            {
+                                "targets": 1,
+                                "orderable": false
+                            }
+                        ]
+                    });
+                });
+            </script>
+        </div>
+    </body>
+</html>

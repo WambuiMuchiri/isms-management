@@ -1,0 +1,43 @@
+<!-- templates/ReceivedCashPayment.html -->
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <style>
+    body { font-family: Arial, sans-serif; background:#f6f9fc; margin:0; padding:20px; }
+    .container { max-width:600px; background:#fff; margin:auto; padding:30px; border-radius:10px; box-shadow:0 4px 10px rgba(0,0,0,.1); }
+    h1,h2,h3 { margin:0 0 15px; color:#333; }
+    .highlight { color:#0d6efd; }
+    .amount { font-size:18px; font-weight:bold; color:#198754; }
+    .muted { color:#666; font-size:14px; }
+    .proof { margin-top:20px; text-align:center; }
+    .proof img { max-width:100%; border-radius:8px; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h3>Hi</h3>
+    <h1 class="highlight">{{clients}}</h1>
+
+    <h2 class="highlight">Payment Successful!</h2>
+    <p class="muted">Receipt No: <strong>{{receiptNo}}</strong></p>
+
+    <p><strong>Balance B/F:</strong> KShs. <span class="amount">{{balanceBF}}</span></p>
+    <p><strong>Amount Received:</strong> KShs. <span class="amount">{{amountPaid}}</span></p>
+    <p><strong>Balance C/F:</strong> KShs. <span class="amount">{{balanceCF}}</span></p>
+
+    <!-- If image proof is available, it will render below; otherwise ignored -->
+    <div class="proof">
+      <!-- The CID will be set by the mailer when it's an image -->
+      <img src="cid:{{paymentProofCid}}" alt="Payment Proof" />
+    </div>
+
+    <p class="muted">If the image is not visible, please check the attachment.</p>
+
+    <div class="footer">
+      <p>Kind regards,</p>
+      <p><strong>Cradle Carwash</strong></p>
+    </div>
+  </div>
+</body>
+</html>

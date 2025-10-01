@@ -1,0 +1,16 @@
+/*
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to edit this template
+*/
+/* 
+    Created on : Sept 25, 2023, 11:17:12 AM
+    Author     : Sankale
+*/
+
+.datatable_inline_delete{
+    display: inline;
+}
+[class*=sidebar-dark-] {
+    background-color: #08052a;/* #000000;*/
+    /*background-color: #6f42c1; #000000;*/
+}

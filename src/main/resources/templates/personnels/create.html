@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en" 
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      layout:decorate="~{layouts/main_layout}">
+    <head>
+        <title>New Personnel</title>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    </head>
+    <body>
+        <div layout:fragment="breadcrumb">
+            <div class="col-sm-6">
+                <h1>Personnels</h1>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="#">Home</a></li>
+                    <li class="breadcrumb-item"><a th:href="@{/personnels/index}" >Personnels</a></li>
+                    <li class="breadcrumb-item active">New Personnel</li>
+                </ol>
+            </div>
+        </div>
+        <div  layout:fragment="content">
+            <div class="card card-info">
+                <div class="card-header">
+                    <h3 class="card-title">
+                        <i class="fas fa-plus"></i>
+                        New Personnel
+                    </h3>
+                </div>
+                <form th:action="@{/personnels/create}" th:object="${personnelsdto}" method="POST" enctype="multipart/form-data">
+                    <div class="card-body">  
+                        <div class="row"> 
+                             <div class="col-md-2">
+                                <div class="form-group">
+                                    <label for="recordDate">Date</label>
+                                    <input class="form-control" type="date" th:field="*{recordDate}" id="recordDate" placeholder="enter date" />
+                                    <div class="alert alert-danger" th:if="${#fields.hasErrors('recordDate')}" th:errors="*{recordDate}"></div>
+                                </div>
+                            </div> 
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label for="firstName">First Name</label>
+                                    <input class="form-control" type="text" th:field="*{firstName}" id="firstName" placeholder="enter first name" />
+                                    <div class="alert alert-danger" th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"></div>
+                                </div>
+                            </div> 
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label for="lastName">Last Name</label>
+                                    <input class="form-control" type="text" th:field="*{lastName}" id="lastName" placeholder="enter last name" />
+                                    <div class="alert alert-danger" th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"></div>
+                                </div>
+                            </div> 		                     
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label for="personnelName">Personnel Name</label>
+                                    <input class="form-control" type="text" th:field="*{personnelName}" id="personnelName" placeholder="enter personnel name" />
+                                    <div class="alert alert-danger" th:if="${#fields.hasErrors('personnelName')}" th:errors="*{personnelName}"></div>
+                                </div>
+                            </div> 
+		                     <div class="col-md-2">
+	                            <div class="form-group">
+		                            <label class="mx-0" style="font-weight:bold;">Personnel Category</label>
+								<select id="categories_Id" name="categoriesId" th:field="*{categories}" class="form-control col-xs-12 mb-3"  required>
+									<option th:value="''" >Select Category</option>
+									<option th:each="category : ${listCategories}" th:value="${category.id}" th:text="${category.name}" th:selected="${category.id} == *{categories}"></option>	 
+								</select>			
+										
+		                            <div class="alert alert-danger" th:if="${#fields.hasErrors('categories')}" th:errors="*{categories}"></div>
+		                        </div>
+		                    </div>
+		                    
+		                   <div class="col-md-2">
+                                <div class="form-group">
+                                    <label for="idNo">Id No</label>
+                                    <input class="form-control" type="text" th:field="*{idNo}" id="idNo" placeholder="enter ID Number" />
+                                    <div class="alert alert-danger" th:if="${#fields.hasErrors('idNo')}" th:errors="*{idNo}"></div>
+                                </div>
+                            </div> 	                     
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label for="telNo">Tel No</label>
+                                    <input class="form-control" type="text" th:field="*{telNo}" id="telNo" placeholder="enter Tel Number" />
+                                    <div class="alert alert-danger" th:if="${#fields.hasErrors('telNo')}" th:errors="*{telNo}"></div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label for="nssfNo">NSSF No.</label>
+                                    <input class="form-control" type="text" th:field="*{nssfNo}" id="nssfNo" placeholder="enter NSSF number" />
+                                    <div class="alert alert-danger" th:if="${#fields.hasErrors('nssfNo')}" th:errors="*{nssfNo}"></div>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label for="nhifNo">NHIF No.</label>
+                                    <input class="form-control" type="text" th:field="*{nhifNo}" id="nhifNo" placeholder="enter NHIF number" />
+                                    <div class="alert alert-danger" th:if="${#fields.hasErrors('nhifNo')}" th:errors="*{nhifNo}"></div>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label for="employeeNo">Employee No.</label>
+                                    <input class="form-control" type="text" th:field="*{employeeNo}" id="employeeNo" placeholder="enter Employee no." />
+                                    <div class="alert alert-danger" th:if="${#fields.hasErrors('employeeNo')}" th:errors="*{employeeNo}"></div>
+                                </div>
+                            </div>
+                            <div class="col-sm-2"> 
+		                        <div class="form-group">		                            
+		                            <label class="mx-0" style="font-weight:bold;">Gender</label> 
+									<select id="gender" name="gender" th:field="*{gender}" class="form-control col-xs-12 mb-2"  required>
+										<option th:value="''" >Select Gender</option>
+										<option th:value="MALE" th:text="MALE" th:selected="MALE == *{gender}"></option>
+					        			<option th:value="FEMALE" th:text="FMALE" th:selected="FEMALE == *{gender}"></option>
+					        			<option th:value="OTHER" th:text="OTHER" th:selected="OTHER == *{gender}"></option>
+									</select>		                            
+		                            <div class="alert alert-danger" th:if="${#fields.hasErrors('gender')}" th:errors="*{gender}"></div>
+		                        </div>
+		                     </div>	 	                     
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="email">Email Address</label>
+                                    <input class="form-control" type="email" th:field="*{email}" id="email" placeholder="enter Email Address" />
+                                    <div class="alert alert-danger" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>
+                                </div>
+                            </div> 
+                            
+		                      <div class="col-md-2">
+	                            <div class="form-group">
+		                            <label class="mx-0" style="font-weight:bold;">Locations</label>
+								<select id="locations_Id" name="locationsId" th:field="*{locations}" class="form-control col-xs-12 mb-3"  required>
+									<option th:value="''" >Select Location</option>
+									<option th:each="location : ${listLocations}" th:value="${location.id}" th:text="${location.locationName}" th:selected="${location.id} == *{locations}"></option>	 
+								</select>			
+										
+		                            <div class="alert alert-danger" th:if="${#fields.hasErrors('locations')}" th:errors="*{locations}"></div>
+		                        </div>
+		                    </div>
+		                 
+		                     
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="achievements">Achievements</label>
+                                    <input class="form-control" type="text" th:field="*{achievements}" id="achievements" placeholder="enter achievement level" />
+                                    <div class="alert alert-danger" th:if="${#fields.hasErrors('achievements')}" th:errors="*{achievements}"></div>
+                                </div>
+                            </div> 
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label for="salaryAmount">Salary</label>
+                                    <input class="form-control text-center" type="text" th:field="*{salaryAmount}" id="salaryAmount" placeholder="0.0" />
+                                    <div class="alert alert-danger" th:if="${#fields.hasErrors('salaryAmount')}" th:errors="*{salaryAmount}"></div>
+                                </div>
+                            </div>
+                          
+                            <div class="col-sm-2"> 
+		                        <div class="form-group">		                            
+		                            <label class="mx-0" style="font-weight:bold;">Status</label> 
+									<select id="status" name="status" th:field="*{status}" class="form-control col-xs-12 mb-2"  required>
+										<option th:value="''" >Select Status</option>
+										<option th:value="ACTIVE" th:text="ACTIVE" th:selected="ACTIVE == *{status}"></option>
+					        			<option th:value="SUSPENDED" th:text="SUSPENDED" th:selected="SUSPENDED == *{status}"></option>
+					        			<option th:value="TRANSFERED" th:text="TRANSFERED" th:selected="TRANSFERED == *{status}"></option>
+					        			<option th:value="DISCONTINUED" th:text="'DISCONTINUED'" th:selected="'DISCONTINUED' == *{status}"></option>
+									</select>		                            
+		                            <div class="alert alert-danger" th:if="${#fields.hasErrors('status')}" th:errors="*{status}"></div>
+		                        </div>
+		                     </div>
+		                                
+		                                                                  
+		                    <div class="col-md-12">
+		                        <div class="form-group">
+		                            <label for="detailedResidence">Detailed Residence</label>
+		                            <textarea rows="6" cols="120" class="form-control" type="text" th:field="*{detailedResidence}" id="detailedResidence" placeholder="* Detailed Residence" required />
+		                            <div class="alert alert-danger" th:if="${#fields.hasErrors('detailedResidence')}" th:errors="*{detailedResidence}"></div>
+		                        </div>
+	                        </div>                                  
+                            <div class="col-md-6">                            
+                                <div class="form-group">
+                                    <label for="personnelPicture">Personnel Picture</label>
+                                    <input class="form-control" type="file" th:field="*{personnelPicture}" id="personnelPicture" placeholder="enter personnel's picture" required accept="image/png, image/jpeg" />
+                                    <div class="alert alert-danger" th:if="${#fields.hasErrors('personnelPicture')}" th:errors="*{personnelPicture}"></div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">                            
+                                <div class="form-group">
+                                    <label for="scannedDocument">Scanned Document</label>
+                                    <input class="form-control" type="file" th:field="*{scannedDocument}" id="scannedDocument" placeholder="choose scanned document" required accept="image/png, image/jpeg" />
+                                    <div class="alert alert-danger" th:if="${#fields.hasErrors('scannedDocument')}" th:errors="*{scannedDocument}"></div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">                            
+                                <div class="form-group">
+                                    <p class="card" style="height:200px; overflow:scroll;">
+										<img class="text-center my-auto" id="thumbnail" th:src="@{*{getPersonnelPicturePath}}" style="width:100%;" alt="personnel_picture" />																	      
+									</p>
+                                </div>
+                            </div>                            
+                            <div class="col-md-6">                            
+                                <div class="form-group">
+                                    <p class="card" style="height:200px; overflow:scroll;">
+										<img class="text-center my-auto" id="thumbnail_2" th:src="@{*{getScannedDocumentPath}}" style="width:100%;" alt="scanned_documents" />																	      
+									</p>
+                                </div>
+                            </div> 
+                            
+                        </div>                    
+                    </div>
+                    <div class="card-footer">
+                        <button type="submit" class="btn btn-success">Save</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        
+        <div layout:fragment="page_specific_scripts">
+                       
+            <script type="text/javascript">
+	            $(document).ready(() => {
+	                // Make personnelName readonly and style it
+	                $('#personnelName').prop('readonly', true);
+	                $('#personnelName').css({
+	                    'font-size': '20px', 
+	                    'font-weight': 'bold', 
+	                    'color': 'blue'
+	                });
+	               	               
+	                function updatePersonnelName() {
+	                    const firstName = $('#firstName').val().trim();
+	                    const lastName = $('#lastName').val().trim();
+	                    const personnelName = firstName + '_' + lastName;
+	                    $('#personnelName').val(personnelName);
+	                }
+	
+	                updatePersonnelName();
+	
+	                $('#firstName').on('input', updatePersonnelName);
+	                $('#lastName').on('input', updatePersonnelName);
+	
+	                function validateForm() {
+	                    const firstName = $('#firstName').val().trim();
+	                    const lastName = $('#lastName').val().trim();
+	
+	                    if (firstName === '' || lastName === '') {
+	                        alert('Please enter both first name and last name.');
+	                        return false;
+	                    }
+	
+	                    if ($('#personnelName').val().trim() === '') {
+	                        alert('Please update the personnel name.');
+	                        return false;
+	                    }	
+	                    
+	                    return true;
+	                }
+	
+	                $('form').on('submit', validateForm);
+	            });
+
+			</script>
+			
+            <script th:inline="javascript">
+                $(document).ready(()=>{
+			      $('#personnelPicture').change(function(){
+			        const file = this.files[0];
+			        console.log(file);
+			        if (file){
+			          let reader = new FileReader();
+			          reader.onload = function(event){
+			            console.log(event.target.result);
+			            $('#thumbnail').attr('src', event.target.result);
+			          }
+			          reader.readAsDataURL(file);
+			        }
+			      });
+			    });
+            </script>
+            <script th:inline="javascript">
+                $(document).ready(()=>{
+			      $('#scannedDocument').change(function(){
+			        const file = this.files[0];
+			        console.log(file);
+			        if (file){
+			          let reader = new FileReader();
+			          reader.onload = function(event){
+			            console.log(event.target.result);
+			            $('#thumbnail_2').attr('src', event.target.result);
+			          }
+			          reader.readAsDataURL(file);
+			        }
+			      });
+			    });
+            </script>
+            </div>        
+    </body>
+</html>

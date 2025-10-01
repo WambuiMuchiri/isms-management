@@ -1,0 +1,280 @@
+<html>
+<head>
+<title>TODO supply a title</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+	<div>
+		<!-- Main Sidebar Container -->
+		<aside class="main-sidebar sidebar-dark-primary elevation-4"
+			th:fragment="menu">
+			<!-- Brand Logo -->
+			<a href="index3.html" class="brand-link"> <!--img th:src="@{/dist/img/AdminLTELogo.png}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8"-->
+				<img th:src="@{/dist/img/AdminLTELogo.png}" alt="AdminLTE Logo"
+				class="brand-image img-circle elevation-3" style="opacity: .8">
+				<span class="brand-text font-weight-light">ISMS</span>
+			</a>
+
+			<!-- Sidebar -->
+			<div class="sidebar">
+				<!-- Sidebar user panel (optional) -->
+				<div class="user-panel mt-3 pb-3 mb-3 d-flex">
+					<div class="image">
+						<!--img th:src="@{/dist/img/user2-160x160.jpg}" class="img-circle elevation-2" alt="User Image"-->
+						<img
+							th:src="@{ ${#authentication.getPrincipal().getUserImage()}} "
+							class="img-circle elevation-2" style="width: 80px; height: 70px;"
+							alt="User Image">
+					</div>
+					<div class="info">
+						<a href="#" class="d-block" sec:authorize="isAuthenticated()"><span
+							th:text="${#authentication.getPrincipal().getFullName()}"></span></a>
+					</div>
+				</div>
+
+				<div class="form-inline">
+					<div class="input-group" data-widget="sidebar-search">
+						<input class="form-control form-control-sidebar" type="search"
+							placeholder="Search" aria-label="Search">
+						<div class="input-group-append">
+							<button class="btn btn-sidebar">
+								<i class="fas fa-search fa-fw"></i>
+							</button>
+						</div>
+					</div>
+				</div>
+
+				<!-- Sidebar Menu -->
+				<nav class="mt-2">
+					<ul class="nav nav-pills nav-sidebar flex-column nav-child-indent"
+						data-widget="treeview" role="menu" data-accordion="false">
+						<!-- Add icons to the links using the .nav-icon class
+                                 with font-awesome or any other icon font library -->
+						<li class="nav-item"><a href="#" class="nav-link"> <i
+								class="nav-icon fas fa-tachometer-alt"></i>
+								<p>
+									Dashboard <i class="right fas fa-angle-left"></i>
+								</p>
+						</a>
+							<ul class="nav nav-treeview">
+								<li class="nav-item">
+									<!--a href="./index.html" class="nav-link active"--> <a
+									href="#" th:href="@{/}" class="nav-link"> <i
+										class="far fa-circle nav-icon"></i>
+										<p>Dashboard</p>
+								</a>
+								</li>
+								<li class="nav-item"><a href="#"
+									th:href="@{/auditEvents/index}" class="nav-link"> <i
+										class="far fa-circle nav-icon"></i>
+										<p>Audit Trail</p>
+								</a></li>
+							</ul></li>
+						<li class="nav-item"><a href="#" class="nav-link"> <i
+								class="nav-icon fas fa-users-cog"></i>
+								<p>
+									Task Management <i class="right fas fa-angle-left"></i>
+								</p>
+						</a>
+							<ul class="nav nav-treeview">
+								<li class="nav-item">
+									<!--a href="./index.html" class="nav-link active"--> <a
+									href="#" th:href="@{/assignments/index}" class="nav-link">
+										<i class="far fa-circle nav-icon"></i>
+										<p>Task Assignments</p>
+								</a>
+								</li>
+							</ul></li>
+
+						<li class="nav-item"><a href="#" class="nav-link "> <i
+								class="nav-icon fas fas fa-copy"></i>
+								<p>
+									Finance <i class="right fas fa-angle-left"></i>
+								</p>
+						</a>
+							<ul class="nav nav-treeview">
+								<li class="nav-item"><a href="#"
+									th:href="@{/payments/index}" class="nav-link"> <i
+										class="far fa-circle nav-icon"></i>
+										<p>
+											Payments <i class="right fas fa-angle-left"></i>
+										</p>
+								</a></li>
+							</ul>
+
+							<ul class="nav nav-treeview">
+								<li class="nav-item"><a href="#"
+									th:href="@{/billings/index}" class="nav-link"> <i
+										class="far fa-circle nav-icon"></i>
+										<p>
+											Billing <i class="right fas fa-angle-left"></i>
+										</p>
+								</a></li>
+							</ul>
+
+							<ul class="nav nav-treeview">
+								<li class="nav-item"><a href="#"
+									th:href="@{/paymentBilling/index}" class="nav-link"> <i
+										class="far fa-circle nav-icon"></i>
+										<p>
+											Payment - Billing <i class="right fas fa-angle-left"></i>
+										</p>
+								</a></li>
+							</ul>
+							<ul class="nav nav-treeview">
+								<li class="nav-item"><a href="#" class="nav-link"> <i
+										class="far fa-circle nav-icon"></i>
+										<p>
+											ISMS Reports <i class="right fas fa-angle-left"></i>
+										</p>
+								</a>
+									<ul class="nav nav-treeview">
+										<li class="nav-item"><a href="#"
+											th:href="@{/reports/index}" class="nav-link"> <i
+												class="far fa-plus-square nav-icon"></i>
+												<p>Statements</p>
+										</a></li>
+										<li class="nav-item"><a href="#"
+											th:href="@{/payments/index}" class="nav-link"> <i
+												class="far fa-list-alt nav-icon"></i>
+												<p>Other Reports</p>
+										</a></li>
+									</ul></li>
+							</ul></li>
+
+
+						<li class="nav-item"><a href="#" class="nav-link "> <i
+								class="nav-icon fas fas fa-copy"></i>
+								<p>
+									Cash Flow <i class="right fas fa-angle-left"></i>
+								</p>
+						</a>
+							<ul class="nav nav-treeview">
+								<li class="nav-item"><a href="#" th:href="@{/cashIn/index}"
+									class="nav-link"> <i class="far fa-list-alt nav-icon"></i>
+										<p>
+											Cash In <i class="right fas fa-angle-left"></i>
+										</p>
+								</a></li>
+							</ul>
+
+							<ul class="nav nav-treeview">
+								<li class="nav-item"><a href="#"
+									th:href="@{/cashOut/index}" class="nav-link"> <i
+										class="far fa-list-alt nav-icon"></i>
+										<p>
+											Cash Out <i class="right fas fa-angle-left"></i>
+										</p>
+								</a></li>
+							</ul></li>
+
+						<li class="nav-item"><a href="#" class="nav-link"> <i
+								class="nav-icon fas fas fa-users"></i>
+								<p>
+									User Management <i class="right fas fa-angle-left"></i>
+								</p>
+						</a>
+
+							<ul class="nav nav-treeview">
+								<li class="nav-item"><a href="#" th:href="@{/roles/index}"
+									class="nav-link"> <i class="far fa-circle nav-icon"></i>
+										<p>
+											Roles <i class="right fas fa-angle-left"></i>
+										</p>
+								</a></li>
+							</ul>
+							<ul class="nav nav-treeview">
+								<li class="nav-item"><a href="#" th:href="@{/users/index}"
+									class="nav-link"> <i class="far fa-circle nav-icon"></i>
+										<p>
+											Users <i class="right fas fa-angle-left"></i>
+										</p>
+								</a></li>
+							</ul>
+							<ul class="nav nav-treeview">
+								<li class="nav-item"><a href="#"
+									th:href="@{/personnels/index}" class="nav-link"> <i
+										class="far fa-circle nav-icon"></i>
+										<p>
+											Personnel <i class="right fas fa-angle-left"></i>
+										</p>
+								</a></li>
+							</ul>
+							<ul class="nav nav-treeview">
+								<li class="nav-item"><a href="#"
+									th:href="@{/clients/index}" class="nav-link"> <i
+										class="far fa-circle nav-icon"></i>
+										<p>
+											Clients <i class="right fas fa-angle-left"></i>
+										</p>
+								</a></li>
+							</ul></li>
+
+						<li class="nav-item menu-open"><a href="#"
+							class="nav-link active"> <i class="nav-icon fas fas fa-cog"></i>
+								<p>
+									Site Management <i class="right fas fa-angle-left"></i>
+								</p>
+						</a>
+
+							<ul class="nav nav-treeview">
+								<li class="nav-item"><a href="#"
+									th:href="@{/locations/index}" class="nav-link"> <i
+										class="far fa-circle nav-icon"></i>
+										<p>
+											Locations <i class="right fas fa-angle-left"></i>
+										</p>
+								</a></li>
+							</ul>
+							<ul class="nav nav-treeview">
+								<li class="nav-item"><a href="#"
+									th:href="@{/categories/index}" class="nav-link"> <i
+										class="far fa-circle nav-icon"></i>
+										<p>
+											Categories <i class="right fas fa-angle-left"></i>
+										</p>
+								</a></li>
+							</ul>
+							<ul class="nav nav-treeview">
+								<li class="nav-item"><a href="#"
+									th:href="@{/projects/index}" class="nav-link"> <i
+										class="far fa-circle nav-icon"></i>
+										<p>
+											Projects <i class="right fas fa-angle-left"></i>
+										</p>
+								</a></li>
+							</ul>
+							<ul class="nav nav-treeview">
+								<li class="nav-item"><a href="#" th:href="@{/sites/index}"
+									class="nav-link"> <i class="far fa-circle nav-icon"></i>
+										<p>
+											Sites <i class="right fas fa-angle-left"></i>
+										</p>
+								</a></li>
+							</ul>
+							<ul class="nav nav-treeview">
+								<li class="nav-item"><a href="#"
+									th:href="@{/installations/index}" class="nav-link"> <i
+										class="far fa-circle nav-icon"></i>
+										<p>
+											Installations <i class="right fas fa-angle-left"></i>
+										</p>
+								</a></li>
+							</ul>
+							<ul class="nav nav-treeview">
+								<li class="nav-item"><a href="#"
+									th:href="@{/equipments/index}" class="nav-link"> <i
+										class="far fa-circle nav-icon"></i>
+										<p>
+											Equipment <i class="right fas fa-angle-left"></i>
+										</p>
+								</a></li>
+							</ul></li>
+					</ul>
+				</nav>
+			</div>
+		</aside>
+	</div>
+</body>
+</html>
